@@ -55,8 +55,8 @@ function sampleMain(tjs, options) {
     tjs.vehicleStateAsync(options).then( function (vehicle_state) {
         console.log("\nOdometer of vehicle: ");
 		console.log("--------");
-		console.log(vehicle_state.vehicle_name)
-		console.log("\n "+ vehicle_state.odometer)
+		// console.log(vehicle_state.vehicle_name)
+		console.log("\n "+ vehicle_state.odometer, vehicle_state.vehicle_name)
 		
 		// var miles = addCommas(Math.round(vehicle_state.odometer).toString());
 // 		console.log("\n " + miles.green + " mi");
