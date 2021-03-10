@@ -45,12 +45,12 @@ exports.SampleFramework = function SampleFramework(program, main) {
                 console.log("\nError: " + err.red);
                 return;
             }
-
-            var vehicle = vehicles[program.index || 0];
+            var i;
+            for (i =0; i < vehicles.length; i++){
+            var vehicle = vehicles[program.index || i];
             options.vehicleID = vehicle.id_s;
             options.vehicle_id = vehicle.vehicle_id;
             options.tokens = vehicle.tokens;
-
             if (vehicle.state.toUpperCase() == "OFFLINE") {
                 console.log("\nResult: " + "Unable to contact vehicle, exiting!".bold.red);
                 return;
@@ -59,11 +59,10 @@ exports.SampleFramework = function SampleFramework(program, main) {
             var carType = tjs.getModel(vehicle);
             
             console.log("\nVehicle " + vehicle.vin.green + " - " + carType.green + " ( '" + vehicle.display_name.cyan + "' ) is: " + vehicle.state.toUpperCase().bold.green);
-
             if (main) {
                 main(tjs, options);
             }
-        });
+        }});
     }
 
     this.run = function () {

@@ -11,6 +11,7 @@
 
 require('colors');
 var program = require('commander');
+const { vehicle } = require('../teslajs.js');
 var framework = require('./sampleFramework.js');
 
 //
@@ -47,15 +48,20 @@ function addCommas(str)
 //
 //
 //
+
+
+
 function sampleMain(tjs, options) {
-    tjs.vehicleState(options, function (err, vehicle_state) {
-        console.log("\nOdometer");
+    tjs.vehicleStateAsync(options).then( function (vehicle_state) {
+        console.log("\nOdometer of vehicle: ");
 		console.log("--------");
+		console.log(vehicle_state.vehicle_name)
+		console.log("\n "+ vehicle_state.odometer)
 		
-		var miles = addCommas(Math.round(vehicle_state.odometer).toString());
-		console.log(miles.green + " mi");
+		// var miles = addCommas(Math.round(vehicle_state.odometer).toString());
+// 		console.log("\n " + miles.green + " mi");
 		
-		var km = addCommas(Math.round(vehicle_state.odometer * 1.609344).toString());
-		console.log(km.green + " km");
+		// var km = addCommas(Math.round(vehicle_state.odometer * 1.609344).toString());
+		// console.log(km.green + " km");
     });
 }
