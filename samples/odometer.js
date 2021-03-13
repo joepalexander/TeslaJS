@@ -62,17 +62,17 @@ function sampleMain(tjs, options) {
 
 		var miles = addCommas(Math.round(vehicle_state.odometer));
 		// console.log("\n " + miles.green + " mi");
-		const carName = vehicle_state.vehicle_name ?? "undefined";
-		console.log(carName)
+		// console.log(carName)
+		const carName = vehicleData.display_name;
 		const carVin = vehicleData.vin;
 		const carMilage = miles
 		// var dataInput = [carName, carVin, carMilage ]
 		// console.log("\n" + miles + ", " + vehicle_state.vehicle_name + ", " + vehicleData.vin)
 		// console.log(dataInput)
-		// 	db('tesla').insert({carName, carVin, carMilage}).then(() => console.log("data inserted" + carVin))
-		// 	.catch((err) => { console.log(err); throw err })
-		// 		.finally(() => {
-		// 			setTimeout(function () { process.exit(); }, 2000);
-		// });
+			db('tesla').insert({carName, carVin, carMilage}).then(() => console.log("data inserted" + carVin))
+			.catch((err) => { console.log(err); throw err })
+				.finally(() => {
+					setTimeout(function () { process.exit(); }, 2000);
+		});
 	});
 }
