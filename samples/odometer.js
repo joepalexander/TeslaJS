@@ -1,17 +1,21 @@
-//=====================================================================
-// This sample demonstrates using TeslaJS
-//
-// https://github.com/mseminatore/TeslaJS
-//
-// Copyright (c) 2016 Mark Seminatore
-//
-// Refer to included LICENSE file for usage rights and restrictions
-//=====================================================================
+
 "use strict";
 
 require('colors');
 var program = require('commander');
-const { vehicle, vehicleAsync, vehiclesAsync, getVin } = require('../teslajs.js');
+const knex = require('knex-pg');
+const db = knex({
+	client: 'pg',
+	connection: {
+		host: 'netics.c8va9oyjk6vz.us-east-1.rds.amazonaws.com',
+		user: 'postgres',
+		password: 'Hilevel1991',
+		database: 'assets',
+	},
+	pool: { min: 0, max: 2 }, // reduce connection pool size
+});
+const { vehicles, vehicle, vehicleConfigAsync } = require('../teslajs.js');
+// const { vehicle, vehicleAsync, vehiclesAsync, getVin } = require('../teslajs.js');
 var framework = require('./sampleFramework.js');
 
 //
@@ -36,12 +40,6 @@ function addCommas(str)
 	var x = str.split('.');
 	var x1 = x[0];
 	var x2 = x.length > 1 ? '.' + x[1] : '';
-	var rgx = /(\d+)(\d{3})/;
-
-	while (rgx.test(x1)) {
-		x1 = x1.replace(rgx, '$1' + ',' + '$2');
-	}
-
 	return x1 + x2;
 }
 
@@ -52,17 +50,29 @@ function addCommas(str)
 
 
 function sampleMain(tjs, options) {
-    tjs.vehicleStateAsync(options).then( function (vehicle_state, vehicles) {
-        console.log("\nOdometer of vehicle: ");
-		console.log("--------");
-		// console.log(vehicle_state.vehicle_name)
-		// console.log("\n "+ vehicle_state.odometer+ ":" + vehicle_state )
-		console.log(getVin(options))
-		
-		// var miles = addCommas(Math.round(vehicle_state.odometer).toString());
-// 		console.log("\n " + miles.green + " mi");
-		
-		// var km = addCommas(Math.round(vehicle_state.odometer * 1.609344).toString());
-		// console.log(km.green + " km");
-    });
+	
+
+	tjs.vehicleDataAsync(options).then( function (vehicleData) {
+		var vehicle_state = vehicleData.vehicle_state;
+		// console.log(vehicleData.vin)
+
+        // console.log("\nOdometer of vehicle: ");
+		// console.log("--------");
+		// console.log("\n " + vehicle_state.odometer + ":  " + vehicle_state.vehicle_name)
+
+		var miles = addCommas(Math.round(vehicle_state.odometer));
+		// console.log("\n " + miles.green + " mi");
+		const carName = vehicle_state.vehicle_name ?? "undefined";
+		console.log(carName)
+		const carVin = vehicleData.vin;
+		const carMilage = miles
+		// var dataInput = [carName, carVin, carMilage ]
+		// console.log("\n" + miles + ", " + vehicle_state.vehicle_name + ", " + vehicleData.vin)
+		// console.log(dataInput)
+		// 	db('tesla').insert({carName, carVin, carMilage}).then(() => console.log("data inserted" + carVin))
+		// 	.catch((err) => { console.log(err); throw err })
+		// 		.finally(() => {
+		// 			setTimeout(function () { process.exit(); }, 2000);
+		// });
+	});
 }
