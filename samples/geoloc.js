@@ -106,8 +106,5 @@ function sampleMain(tjs, options) {
             }
             console.log("");
         }
-        else {
-            console.log(drive_state.reason.red);
-        }
     });
 }

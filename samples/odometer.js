@@ -59,6 +59,9 @@ function sampleMain(tjs, options) {
         // console.log("\nOdometer of vehicle: ");
 		// console.log("--------");
 		// console.log("\n " + vehicle_state.odometer + ":  " + vehicle_state.vehicle_name)
+		const location = vehicleData.drive_state.latitude + ", " + vehicleData.drive_state.longitude
+
+		console.log("\n" + location)
 
 		var miles = addCommas(Math.round(vehicle_state.odometer));
 		// console.log("\n " + miles.green + " mi");
@@ -69,7 +72,7 @@ function sampleMain(tjs, options) {
 		// var dataInput = [carName, carVin, carMilage ]
 		// console.log("\n" + miles + ", " + vehicle_state.vehicle_name + ", " + vehicleData.vin)
 		// console.log(dataInput)
-			db('tesla').insert({carName, carVin, carMilage}).then(() => console.log("data inserted" + carVin))
+			db('tesla').insert({carName, carVin, carMilage}).then(() => console.log("data inserted: " + carVin))
 			.catch((err) => { console.log(err); throw err })
 				.finally(() => {
 					setTimeout(function () { process.exit(); }, 2000);
