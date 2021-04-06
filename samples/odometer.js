@@ -22,10 +22,10 @@ var framework = require('./sampleFramework.js');
 //
 //
 program
-  .option('-u, --username [string]', 'username (needed only if token not cached)')
-  .option('-p, --password [string]', 'password (needed only if token not cached)')
-  .option('-U, --uri [string]', 'URI of test server (e.g. http://127.0.0.1:3000)')
-  .parse(process.argv);
+	.option('-u, --username [string]', 'username (needed only if token not cached)')
+	.option('-p, --password [string]', 'password (needed only if token not cached)')
+	.option('-U, --uri [string]', 'URI of test server (e.g. http://127.0.0.1:3000)')
+	.parse(process.argv);
 
 //
 var sample = new framework.SampleFramework(program, sampleMain);
@@ -34,8 +34,7 @@ sample.run();
 //
 //
 //
-function addCommas(str)
-{
+function addCommas(str) {
 	str += '';
 	var x = str.split('.');
 	var x1 = x[0];
@@ -50,13 +49,13 @@ function addCommas(str)
 
 
 function sampleMain(tjs, options) {
-	
 
-	tjs.vehicleDataAsync(options).then( function (vehicleData) {
+
+	tjs.vehicleDataAsync(options).then(function (vehicleData) {
 		var vehicle_state = vehicleData.vehicle_state;
 		// console.log(vehicleData.vin)
 
-        // console.log("\nOdometer of vehicle: ");
+		// console.log("\nOdometer of vehicle: ");
 		// console.log("--------");
 		// console.log("\n " + vehicle_state.odometer + ":  " + vehicle_state.vehicle_name)
 		const location = vehicleData.drive_state.latitude + ", " + vehicleData.drive_state.longitude
@@ -66,16 +65,18 @@ function sampleMain(tjs, options) {
 		var miles = addCommas(Math.round(vehicle_state.odometer));
 		// console.log("\n " + miles.green + " mi");
 		// console.log(carName)
+		const carLatWhenRead = vehicleData.drive_state.latitude
+		const carLongWhenRead = vehicleData.drive_state.longitude
 		const carName = vehicleData.display_name;
 		const carVin = vehicleData.vin;
 		const carMilage = miles
 		// var dataInput = [carName, carVin, carMilage ]
 		// console.log("\n" + miles + ", " + vehicle_state.vehicle_name + ", " + vehicleData.vin)
 		// console.log(dataInput)
-			db('tesla').insert({carName, carVin, carMilage}).then(() => console.log("data inserted: " + carName))
+		db('tesla').insert({ carName, carVin, carMilage, carLatWhenRead, carLongWhenRead }).then(() => console.log("data inserted: " + carName))
 			.catch((err) => { console.log(err); throw err })
-				.finally(() => {
-					setTimeout(function () { process.exit(); }, 2000);
-		});
+			.finally(() => {
+				setTimeout(function () { process.exit(); }, 2000);
+			});
 	});
 }
