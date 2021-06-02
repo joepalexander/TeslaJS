@@ -6,7 +6,7 @@
     "knex-pg": "^0.0.10",
     "promise": "^8.0.3",
     "request": "^2.88.2",
-    "ws": "^7.2.1"
+    "ws": "^7.4.6"
   },
   "bugs": {
     "url": "https://github.com/mseminatore/TeslaJS/issues"
@@ -35,12 +35,12 @@
   "license": "MIT",
   "devDependencies": {
     "colors": "^1.4.0",
-    "commander": "^7.0.0",
+    "commander": "^7.2.0",
     "coveralls": "^3.0.11",
     "istanbul": "^0.4.5",
-    "jsdoc-to-markdown": "^7.0.0",
+    "jsdoc-to-markdown": "^7.0.1",
     "jshint": "^2.11.0",
-    "mocha": "^8.0.1",
+    "mocha": "^8.4.0",
     "sepia": "^2.0.2"
   }
 }
