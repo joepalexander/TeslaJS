@@ -15,7 +15,6 @@ const db = knex({
 	pool: { min: 0, max: 2 }, // reduce connection pool size
 });
 const { vehicles, vehicle, vehicleConfigAsync } = require('../teslajs.js');
-// const { vehicle, vehicleAsync, vehiclesAsync, getVin } = require('../teslajs.js');
 var framework = require('./sampleFramework.js');
 
 //
@@ -53,26 +52,13 @@ function sampleMain(tjs, options) {
 
 	tjs.vehicleDataAsync(options).then(function (vehicleData) {
 		var vehicle_state = vehicleData.vehicle_state;
-		// console.log(vehicleData.vin)
-
-		// console.log("\nOdometer of vehicle: ");
-		// console.log("--------");
-		// console.log("\n " + vehicle_state.odometer + ":  " + vehicle_state.vehicle_name)
 		const location = vehicleData.drive_state.latitude + ", " + vehicleData.drive_state.longitude
-
-		// console.log("\n" + location)
-
 		var miles = addCommas(Math.round(vehicle_state.odometer));
-		// console.log("\n " + miles.green + " mi");
-		// console.log(carName)
 		const carLatWhenRead = vehicleData.drive_state.latitude
 		const carLongWhenRead = vehicleData.drive_state.longitude
 		const carName = vehicleData.display_name;
 		const carVin = vehicleData.vin;
 		const carMilage = miles
-		// var dataInput = [carName, carVin, carMilage ]
-		// console.log("\n" + miles + ", " + vehicle_state.vehicle_name + ", " + vehicleData.vin)
-		// console.log(dataInput)
 		db('tesla').insert({ carName, carVin, carMilage, carLatWhenRead, carLongWhenRead }).then(() => console.log("data inserted: " + carName))
 			.catch((err) => { console.log(err); throw err })
 			.finally(() => {
