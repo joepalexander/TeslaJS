@@ -27,9 +27,6 @@ program
 var sample = new framework.SampleFramework(program, sampleMain);
 sample.run();
 
-//
-//
-//
 function sampleMain(tjs, options) {
     tjs.wakeUp(options, function (err, result) {
         if (err) {
